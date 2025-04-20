@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Café La Arábica</title>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', sans-serif; background-color: #fdfaf6; color: #333; }
+    header { background-color: #6f4e37; color: white; text-align: center; padding: 1rem; border-bottom: 4px solid #d9b382; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    header img { max-height: 60px; max-width: 150px; width: auto; display: block; margin: 0.5rem auto; }
+    h1 { margin: 0; }
+    p.subtitle { margin: 0.5rem 0 0; font-style: italic; }
+    section { padding: 2rem; max-width: 1000px; margin: auto; }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 1.5rem; margin-bottom: 2rem; }
+    .accordion { margin-top: 1rem; }
+    .accordion-item { border-bottom: 1px solid #ddd; }
+    .accordion-title { cursor: pointer; padding: 1rem; background: #f2e8dc; border-radius: 8px; margin-bottom: 0.5rem; transition: background 0.3s; }
+    .accordion-title:hover { background: #e8d7c6; }
+    .accordion-content { display: none; padding: 0.5rem 1rem; animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    form { display: flex; flex-direction: column; gap: 1rem; }
+    input, textarea { padding: 0.7rem; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; }
+    button { background-color: #6f4e37; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; font-size: 1rem; }
+    button:hover { background-color: #5c3e2d; }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #323232; color: white; padding: 1rem 1.5rem; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); opacity: 0; pointer-events: none; transition: opacity 0.4s ease, bottom 0.4s ease; z-index: 9999; }
+    .toast.show { opacity: 1; bottom: 40px; pointer-events: auto; }
+    .toast.success { background-color: #4caf50; }
+    .toast.error { background-color: #f44336; }
+    footer { text-align: center; padding: 1rem; font-size: 0.9rem; color: #555; }
+    @media (max-width: 768px) { section { padding: 1rem; } }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://github.com/Rafael-61/ejercicio-cafe-2/blob/main/logo%20cafe.jpg?raw=true" alt="Logo Café La Arábica">
+    <h1>Café La Arábica</h1>
+    <p class="subtitle">Pasión por el buen café</p>
+  </header>
+
+  <section>
+    <!-- Información institucional -->
+    <div class="card">
+      <h2>¿Quiénes somos?</h2>
+      <p>Somos una distribuidora de café ubicada en el estado de Colima, Colima. Distribuimos café a todo México, adaptándonos al tipo de tostado que nuestros clientes necesitan. Nuestro café proviene de zonas con más de 1000 metros de altitud, garantizando sabor y calidad.</p>
+      <h3>Misión</h3>
+      <p>Brindar café de altura con calidad excepcional a cada rincón de México, apoyando a productores locales.</p>
+      <h3>Visión</h3>
+      <p>Ser la distribuidora de café más confiable y reconocida por la calidad y atención personalizada.</p>
+      <h3>Valores</h3>
+      <ul>
+        <li>Calidad</li>
+        <li>Compromiso</li>
+        <li>Honestidad</li>
+        <li>Cercanía</li>
+        <li>Pasión por el café</li>
+      </ul>
+    </div>
+
+    <!-- Catálogo de Productos -->
+    <div class="card">
+      <h2>Catálogo de Productos</h2>
+      <div class="accordion">
+        <div class="accordion-item">
+          <div class="accordion-title" onclick="toggleAccordion(this)">Café en Grano (Oscuro / Exprés)</div>
+          <div class="accordion-content">Granos enteros de alta altitud, sin moler. Tostado oscuro o exprés.</div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-title" onclick="toggleAccordion(this)">Molido Grueso (Cafetera)</div>
+          <div class="accordion-content">Molido grueso, perfecto para cafeteras de goteo o prensa francesa. Disponible en ambos tostados.</div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-title" onclick="toggleAccordion(this)">Molido Fino (Olla)</div>
+          <div class="accordion-content">Molido fino, ideal para preparar café de olla tradicional. Disponible en ambos tostados.</div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-title" onclick="toggleAccordion(this)">Café con Canela - Grueso</div>
+          <div class="accordion-content">Molido grueso con un toque especiado de canela.</div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-title" onclick="toggleAccordion(this)">Café con Canela - Fino</div>
+          <div class="accordion-content">Molido fino con canela, preparado para olla.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulario de Pedido -->
+    <div class="card">
+      <h2>Agendar Pedido</h2>
+      <form id="pedidoForm" novalidate>
+        <input type="text" name="nombre" placeholder="Nombre completo" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$" />
+        <input type="tel" name="telefono" placeholder="Teléfono (10 dígitos)" required pattern="^[0-9]{10}$" />
+        <input type="email" name="correo" placeholder="Correo electrónico" required />
+        <input type="date" name="fecha" required />
+        <input type="time" name="hora" required />
+        <textarea name="comentarios" rows="4" placeholder="Comentarios (mín 5 caracteres)" minlength="5"></textarea>
+        <button type="submit">Enviar Pedido</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <footer>
+    &copy; 2025 Café La Arábica. Todos los derechos reservados.
+  </footer>
+
+  <script>
+    function toggleAccordion(el) {
+      const content = el.nextElementSibling;
+      const isOpen = content.style.display === 'block';
+      document.querySelectorAll('.accordion-content').forEach(c => c.style.display = 'none');
+      content.style.display = isOpen ? 'none' : 'block';
+    }
+
+    function showToast(message, success = true) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = `toast show ${success ? 'success' : 'error'}`;
+      setTimeout(() => toast.className = 'toast', 3000);
+    }
+
+    document.getElementById('pedidoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const form = this;
+      const formData = new FormData(form);
+
+      // Validaciones extra
+      const correo = form.correo.value;
+      const telefono = form.telefono.value;
+      const nombre = form.nombre.value;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (nombre.trim().length < 3) { return showToast('Nombre inválido', false); }
+      if (!/^[0-9]{10}$/.test(telefono)) { return showToast('Teléfono inválido', false); }
+      if (!emailRegex.test(correo)) { return showToast('Correo inválido', false); }
+
+      fetch('https://script.google.com/macros/s/AKfycbxmTi2lsHtS7wPeCNi4TVgiwwSKtvizBwcWegcyjdbXmxUrKT-pQJFANukfOfO48gNZ0A/exec', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.ok ? showToast('Pedido enviado con éxito') : Promise.reject(res))
+      .catch(() => showToast('Error al enviar el pedido', false));
+
+      form.reset();
+    });
+  </script>
+</body>
+</html>
